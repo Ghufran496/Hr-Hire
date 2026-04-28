@@ -1,0 +1,17 @@
+node_modules
+.next
+out
+build
+dist
+coverage
+.vercel
+.env*
+public
+*.lock
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+.claude
+design-system
+supabase
+src/components/ui
