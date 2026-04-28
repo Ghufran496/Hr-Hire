@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Mail, Phone } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/auth";
 import type {
   ApplicationRow,
   CommentWithAuthorRow,
@@ -26,7 +27,10 @@ export default async function ApplicationDetailsPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const supabase = await createClient();
+  const [supabase, currentUser] = await Promise.all([
+    createClient(),
+    requireAdmin(),
+  ]);
 
   const [{ data: application }, { data: comments }] = await Promise.all([
     supabase
@@ -128,6 +132,7 @@ export default async function ApplicationDetailsPage({
           <CommentsThread
             applicationId={app.id}
             initialComments={commentList}
+            currentUserId={currentUser.id}
           />
         </aside>
       </div>
